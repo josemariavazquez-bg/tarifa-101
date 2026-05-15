@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<meta name="theme-color" content="#1a1a1a">
+<title>Comparativa & Catálogo — 101 Other Level</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/gridjs@5.0.2/dist/gridjs.umd.js" integrity="sha384-/XXDzxe4FsGiAe50i/u9pY/Vy/uX654MHB1xoc1BJNnH1WXHhqHga9g3q5tF4gj7" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridjs@5.0.2/dist/theme/mermaid.min.css" integrity="sha384-jZvDSsmGB9oGGT/4l9bHXGoAv1OxvG/cFmSo0dZaSqmBgvQTKDBFAMftlXTmMbNW" crossorigin="anonymous">
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; background: #fafafa; color: #1a1a1a; }
+h1 { margin: 0 0 4px 0; font-size: 22px; }
+.subtitle { color: #666; font-size: 13px; margin-bottom: 18px; }
+
+/* Tabs */
+.tabs { display: flex; gap: 4px; border-bottom: 2px solid #e5e5e5; margin-bottom: 20px; }
+.tab-btn { padding: 10px 18px; background: transparent; border: none; cursor: pointer; font-size: 14px; color: #666; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.2s; font-weight: 500; }
+.tab-btn:hover { color: #1a1a1a; }
+.tab-btn.active { color: #1a1a1a; border-bottom-color: #1a1a1a; font-weight: 600; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.kpi { background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 14px 16px; }
+.kpi-label { color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi-value { font-size: 24px; font-weight: 600; margin-top: 4px; }
+.kpi-value.green { color: #16a34a; }
+.kpi-value.red { color: #dc2626; }
+.kpi-value.amber { color: #d97706; }
+.kpi-sub { color: #888; font-size: 11px; margin-top: 2px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; align-items: center; background: #fff; padding: 12px; border: 1px solid #e5e5e5; border-radius: 8px; }
+.filters label { font-size: 12px; color: #555; display: flex; flex-direction: column; gap: 4px; }
+.filters select, .filters input { padding: 6px 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 13px; background: #fff; }
+.filters button { padding: 7px 14px; border-radius: 5px; border: 1px solid #ddd; background: #fff; cursor: pointer; font-size: 13px; }
+.filters button.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+
+.layout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.card { background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 16px; }
+.card h3 { margin: 0 0 12px 0; font-size: 14px; color: #444; }
+.chart-wrap { position: relative; height: 280px; }
+.table-wrap { background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 12px; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+.badge.match { background: #dcfce7; color: #166534; }
+.badge.nomatch { background: #fee2e2; color: #991b1b; }
+.badge.out { background: #f3f4f6; color: #6b7280; }
+.diff-positive { color: #16a34a; font-weight: 600; }
+.diff-negative { color: #dc2626; font-weight: 600; }
+.diff-zero { color: #6b7280; }
+.gridjs-table { font-size: 12px !important; }
+.gridjs-th { background: #f9fafb !important; white-space: nowrap !important; }
+.gridjs-th-content { white-space: nowrap !important; overflow: visible !important; text-overflow: clip !important; }
+.gridjs-td { white-space: nowrap !important; }
+.gridjs-wrapper { overflow-x: auto !important; }
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+/* Catálogo amigos */
+.cat-header-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 12px; }
+.settings-toggle { background: #1a1a1a; color: #fff; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+.share-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.share-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+.share-btn.wa { background: #25d366; color: #fff; }
+.share-btn.wa:hover { background: #1ebd5b; }
+.share-btn.copy { background: #3b82f6; color: #fff; }
+.share-btn.copy:hover { background: #2563eb; }
+.share-btn.copy.copied { background: #16a34a; }
+.share-btn.print { background: #6b7280; color: #fff; }
+.share-btn.print:hover { background: #4b5563; }
+.share-btn.dl { background: #f59e0b; color: #fff; }
+.share-btn.dl:hover { background: #d97706; }
+.share-toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 12px 20px; border-radius: 8px; font-size: 13px; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 9999; }
+.share-toast.show { opacity: 1; }
+
+/* Lista de compra */
+.list-toolbar { position: sticky; top: 0; background: rgba(250,250,250,0.95); backdrop-filter: blur(8px); padding: 12px 0; margin-bottom: 16px; z-index: 100; border-bottom: 1px solid #e5e5e5; }
+.list-totals { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.list-totals-info { display: flex; gap: 24px; flex-wrap: wrap; }
+.list-totals-info .stat { display: flex; flex-direction: column; }
+.list-totals-info .stat-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+.list-totals-info .stat-value { font-size: 22px; font-weight: 700; color: #1a1a1a; font-variant-numeric: tabular-nums; }
+.list-totals-info .stat-value.total { color: #16a34a; }
+.list-totals-info .stat-value.pvp-total { color: #888; text-decoration: line-through; font-size: 15px; font-weight: 500; }
+.list-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.list-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.list-filters input, .list-filters select { padding: 7px 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 13px; background: #fff; }
+.list-filters input { min-width: 200px; }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+.product-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; transition: all 0.15s; }
+.product-card:hover { border-color: #1a1a1a; transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,0.08); }
+.product-card.in-cart { border-color: #16a34a; border-width: 2px; background: #f0fdf4; padding: 9px; }
+.product-img { width: 100%; height: 110px; background: #f9fafb; border-radius: 5px; overflow: hidden; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; }
+.product-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.product-img .no-img { color: #ccc; font-size: 10px; }
+.product-card .p-cat { font-size: 9px; color: #999; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px; }
+.product-card .p-title { font-size: 12px; font-weight: 500; line-height: 1.25; color: #1a1a1a; margin-bottom: 6px; min-height: 30px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.product-card .p-prices { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.product-card .p-price { font-size: 16px; font-weight: 700; color: #16a34a; }
+.product-card .p-pvp { font-size: 11px; color: #888; text-decoration: line-through; }
+.product-card .p-saving { font-size: 9px; color: #16a34a; background: #dcfce7; padding: 1px 4px; border-radius: 3px; font-weight: 600; }
+.admin-only { display: none !important; }
+body.admin .admin-only { display: revert !important; }
+body.admin .admin-only.flex { display: flex !important; }
+body.admin .admin-only.grid { display: grid !important; }
+body.admin .admin-only.inline-flex { display: inline-flex !important; }
+.admin-floating { position: fixed; bottom: 12px; right: 12px; z-index: 1000; opacity: 0.35; transition: opacity 0.2s; }
+.admin-floating:hover { opacity: 1; }
+.admin-floating button { background: #1a1a1a; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; }
+body.admin .admin-floating { opacity: 1; }
+body.admin .admin-floating button { background: #16a34a; }
+/* Modal admin */
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+.modal-bg.open { display: flex; }
+.modal { background: #fff; border-radius: 12px; padding: 24px; max-width: 480px; width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+.modal h2 { margin: 0 0 6px 0; font-size: 18px; }
+.modal .modal-sub { color: #666; font-size: 13px; margin-bottom: 18px; }
+.modal label { display: block; font-size: 12px; color: #555; margin-bottom: 4px; font-weight: 500; }
+.modal input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; margin-bottom: 14px; font-family: monospace; }
+.modal input.code { font-size: 22px; text-align: center; letter-spacing: 6px; font-weight: 700; }
+.modal-actions { display: flex; gap: 8px; margin-top: 8px; }
+.modal-btn { flex: 1; padding: 11px; border: none; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; }
+.modal-btn.primary { background: #1a1a1a; color: #fff; }
+.modal-btn.primary:hover { background: #000; }
+.modal-btn.secondary { background: #f3f4f6; color: #1a1a1a; }
+.modal-error { color: #dc2626; font-size: 12px; margin-top: -8px; margin-bottom: 12px; display: none; }
+.modal-error.show { display: block; }
+.modal-setup { background: #fff8e1; border: 1px solid #fbc02d; border-radius: 6px; padding: 12px; margin-bottom: 14px; font-size: 12px; color: #8a6500; }
+.modal-setup code { background: #fff; padding: 4px 8px; border-radius: 4px; font-size: 13px; color: #b27500; word-break: break-all; display: inline-block; margin-top: 4px; }
+.modal-setup .setup-toggle { color: #b27500; cursor: pointer; text-decoration: underline; font-size: 11px; }
+.profit-info { display: none !important; }
+body.admin .profit-info { display: inline-flex !important; }
+body.admin .product-card .p-profit { display: inline-flex !important; }
+body.admin .stat.profit-stat { display: flex !important; }
+.p-profit { background: #fef3c7; color: #92400e; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 3px; margin-bottom: 6px; align-self: flex-start; align-items: center; gap: 4px; }
+.stat.profit-stat { background: #fef3c7; padding: 6px 10px; border-radius: 6px; }
+.stat.profit-stat .stat-label { color: #92400e; }
+.stat.profit-stat .stat-value { color: #b45309; }
+.product-card .p-stock { font-size: 10px; color: #dc2626; margin-bottom: 6px; }
+.qty-control { display: flex; align-items: center; gap: 0; margin-top: auto; }
+.qty-btn { width: 28px; height: 28px; border: 1px solid #ddd; background: #fff; cursor: pointer; font-size: 14px; font-weight: 600; color: #1a1a1a; display: flex; align-items: center; justify-content: center; transition: all 0.15s; padding: 0; }
+.qty-btn:hover { background: #f3f4f6; border-color: #1a1a1a; }
+.qty-btn.minus { border-radius: 5px 0 0 5px; }
+.qty-btn.plus { border-radius: 0 5px 5px 0; background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+.qty-btn.plus:hover { background: #000; }
+.qty-input { width: 44px; height: 28px; border: 1px solid #ddd; border-left: none; border-right: none; text-align: center; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; -moz-appearance: textfield; padding: 0; }
+.qty-input::-webkit-outer-spin-button, .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.list-cat-section { margin-bottom: 24px; }
+.list-cat-section h2 { font-size: 14px; color: #444; border-bottom: 2px solid #e5e5e5; padding-bottom: 6px; margin: 0 0 12px 0; }
+.empty-cart-msg { background: #fff; padding: 30px; border-radius: 8px; text-align: center; color: #888; }
+.list-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+.list-btn.primary { background: #25d366; color: #fff; }
+.list-btn.primary:hover { background: #1ebd5b; }
+.list-btn.secondary { background: #f3f4f6; color: #1a1a1a; border: 1px solid #ddd; }
+.list-btn.secondary:hover { background: #e5e5e5; }
+.list-btn.danger { background: transparent; color: #dc2626; border: 1px solid #fecaca; }
+.list-btn.danger:hover { background: #fee2e2; }
+.settings { background: #fff8e1; border: 1px solid #fbc02d; border-radius: 8px; padding: 14px 16px; margin-bottom: 18px; display: none; }
+.settings.open { display: block; }
+.settings h3 { margin: 0 0 10px 0; font-size: 13px; color: #b27500; text-transform: uppercase; letter-spacing: 0.5px; }
+.settings-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.settings label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #555; }
+.settings input, .settings select { padding: 6px 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 13px; background: #fff; }
+.settings .note { width: 100%; font-size: 11px; color: #8a6500; margin-top: 8px; font-style: italic; }
+.banner { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); color: #fff; padding: 18px 22px; border-radius: 10px; margin-bottom: 20px; }
+.banner h2 { margin: 0 0 4px 0; font-size: 18px; }
+.banner p { margin: 0; font-size: 13px; opacity: 0.85; }
+.banner strong { color: #fcd34d; }
+.category-section { margin-bottom: 28px; }
+.category-section h2 { font-size: 15px; color: #444; border-bottom: 2px solid #e5e5e5; padding-bottom: 8px; margin-bottom: 12px; }
+.catalog-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.catalog-table th { background: #f3f4f6; padding: 10px 14px; text-align: left; font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; border-bottom: 1px solid #e5e5e5; }
+.catalog-table th.num { text-align: right; }
+.catalog-table td { padding: 12px 14px; font-size: 14px; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
+.catalog-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.catalog-table tr:last-child td { border-bottom: none; }
+.catalog-table tr:hover { background: #fafafa; }
+.product-name { font-weight: 500; color: #1a1a1a; }
+.pvp { color: #888; text-decoration: line-through; }
+.your-price { color: #16a34a; font-weight: 700; font-size: 15px; }
+.savings { color: #16a34a; font-size: 12px; background: #dcfce7; padding: 2px 8px; border-radius: 4px; display: inline-block; }
+.footer-note { margin-top: 30px; padding-top: 16px; border-top: 1px solid #e5e5e5; color: #888; font-size: 11px; text-align: center; }
+
+@media print {
+  .tabs, .settings-toggle, .settings, .share-bar, .admin-floating { display: none !important; }
+  .tab-content { display: block !important; }
+  #tab-analisis { display: none !important; }
+  body { padding: 12px; }
+  .banner { background: #1a1a1a; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ============ RESPONSIVE (tablet) ============ */
+@media (max-width: 900px) {
+  body { padding: 14px; }
+  h1 { font-size: 18px; }
+  .subtitle { font-size: 12px; margin-bottom: 14px; }
+  .tabs { gap: 2px; overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+  .tab-btn { white-space: nowrap; padding: 9px 12px; font-size: 13px; }
+  .kpi-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+  .kpi-value { font-size: 20px; }
+  .filters { flex-direction: column; align-items: stretch; }
+  .filters label { width: 100%; }
+  .filters select, .filters input { width: 100%; }
+  .layout { grid-template-columns: 1fr; gap: 12px; }
+  .chart-wrap { height: 240px; }
+}
+
+/* ============ RESPONSIVE (móvil) ============ */
+@media (max-width: 640px) {
+  body { padding: 10px; }
+  h1 { font-size: 16px; }
+  .subtitle { font-size: 11px; margin-bottom: 10px; }
+
+  /* Tabs scroll horizontal */
+  .tabs { gap: 0; }
+  .tab-btn { padding: 8px 10px; font-size: 12px; }
+
+  /* Catálogo header */
+  .cat-header-row { flex-direction: column; align-items: stretch; gap: 8px; }
+  .cat-header-row > button { width: 100%; }
+
+  /* Settings panel */
+  .settings { padding: 10px; }
+  .settings-row { flex-direction: column; align-items: stretch; gap: 10px; }
+  .settings label { width: 100%; }
+  .settings input, .settings select { width: 100%; }
+
+  /* Banner */
+  .banner { padding: 14px 16px; }
+  .banner h2 { font-size: 16px; }
+  .banner p { font-size: 12px; }
+
+  /* Share bar y list-actions: botones grandes y stretching */
+  .share-bar { gap: 6px; }
+  .share-btn { flex: 1 1 calc(50% - 3px); justify-content: center; padding: 10px 8px; font-size: 12px; }
+
+  /* Lista de compra: toolbar */
+  .list-toolbar { padding: 8px 0; }
+  .list-totals { flex-direction: column; align-items: stretch; gap: 10px; }
+  .list-totals-info { gap: 12px; justify-content: space-around; }
+  .list-totals-info .stat-label { font-size: 9px; }
+  .list-totals-info .stat-value { font-size: 17px; }
+  .list-totals-info .stat-value.pvp-total { font-size: 13px; }
+  .list-actions { width: 100%; gap: 6px; }
+  .list-btn { flex: 1 1 calc(50% - 3px); justify-content: center; padding: 11px 6px; font-size: 12px; min-height: 44px; }
+
+  /* Filtros: stack vertical */
+  .list-filters { flex-direction: column; gap: 6px; }
+  .list-filters input, .list-filters select { width: 100%; min-width: 0; padding: 10px 12px; font-size: 14px; }
+
+  /* Catálogo (tabla) tarifa: hacer scroll horizontal si hace falta */
+  .catalog-table { font-size: 12px; }
+  .catalog-table th, .catalog-table td { padding: 8px 8px; }
+  .catalog-table th { font-size: 10px; }
+  .product-name { font-size: 12px; }
+
+  /* Grid de tarjetas: 2 columnas siempre en móvil */
+  .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 8px; }
+  .product-card { padding: 8px; border-radius: 8px; }
+  .product-card.in-cart { padding: 7px; }
+  .product-img { height: 110px; }
+  .product-card .p-cat { font-size: 9px; }
+  .product-card .p-title { font-size: 12px; min-height: 30px; line-height: 1.2; -webkit-line-clamp: 2; }
+  .product-card .p-prices { gap: 4px; margin-bottom: 6px; }
+  .product-card .p-price { font-size: 15px; }
+  .product-card .p-pvp { font-size: 10px; }
+  .product-card .p-saving { font-size: 9px; padding: 1px 4px; }
+  .p-profit { font-size: 9px; padding: 2px 5px; }
+
+  /* Quantity selectors más grandes para tocar con el dedo */
+  .qty-control { width: 100%; justify-content: center; }
+  .qty-btn { width: 36px; height: 36px; font-size: 18px; }
+  .qty-input { width: 50px; height: 36px; font-size: 15px; }
+
+  /* Admin floating: más arriba para no chocar con la barra inferior del móvil */
+  .admin-floating { bottom: 14px; right: 10px; }
+  .admin-floating button { padding: 8px 14px; font-size: 12px; }
+
+  /* Modal: full screen */
+  .modal-bg { padding: 12px; align-items: flex-start; padding-top: 30px; }
+  .modal { padding: 20px; border-radius: 10px; }
+  .modal h2 { font-size: 16px; }
+  .modal-sub { font-size: 12px; }
+  .modal input { padding: 12px; font-size: 16px; /* evita zoom en iOS */ }
+  .modal input.code { font-size: 22px; }
+
+  /* Toast */
+  .share-toast { left: 10px; right: 10px; transform: none; bottom: 70px; font-size: 12px; padding: 10px 14px; }
+
+  /* Categoría sección */
+  .category-section h2, .list-cat-section h2 { font-size: 13px; }
+
+  /* Banner amarillo de markup en lista */
+  body.admin .admin-only.flex { flex-direction: column !important; align-items: stretch !important; }
+}
+
+/* Móviles muy estrechos (320px-360px) */
+@media (max-width: 380px) {
+  .product-img { height: 95px; }
+  .product-card .p-title { font-size: 11px; }
+  .product-card .p-price { font-size: 14px; }
+  .list-btn { flex: 1 1 100%; }
+  .share-btn { flex: 1 1 100%; }
+}
+</style>
+</head>
+<body>
+<h1>101 Other Level — Análisis & Catálogo</h1>
+<div class="subtitle">Fuente: 101otherlevel.com (PVP) y business.101otherlevel.com (B2B). Datos capturados el 15-may-2026.</div>
+
+<div class="tabs">
+  <button class="tab-btn admin-only" data-tab="analisis">📊 Análisis comparativo</button>
+  <button class="tab-btn admin-only" data-tab="catalogo">🛒 Catálogo para compartir</button>
+  <button class="tab-btn active" data-tab="lista">🛍️ Lista de compra</button>
+</div>
+
+<!-- ============ TAB ANÁLISIS ============ -->
+<div class="tab-content" id="tab-analisis">
+
+<div class="kpi-grid" id="kpis"></div>
+
+<div class="filters">
+  <label>Categoría
+    <select id="filterCat"><option value="">Todas</option></select>
+  </label>
+  <label>Estado match
+    <select id="filterMatch">
+      <option value="">Todos</option>
+      <option value="1">Solo con precio B2B</option>
+      <option value="0">Solo sin precio B2B</option>
+    </select>
+  </label>
+  <label>Disponibilidad
+    <select id="filterAvail">
+      <option value="">Todas</option>
+      <option value="1">Disponible</option>
+      <option value="0">Agotado</option>
+    </select>
+  </label>
+  <label>Buscar
+    <input type="text" id="filterSearch" placeholder="SKU o nombre...">
+  </label>
+  <label>Margen mínimo %
+    <input type="number" id="filterMargin" placeholder="ej. 30" min="0" max="100" step="5" style="width:80px;">
+  </label>
+  <label>Comparar con
+    <select id="ivaMode">
+      <option value="iva">Con IVA (precio escaparate)</option>
+      <option value="sin">Sin IVA (precio neto)</option>
+    </select>
+  </label>
+  <button id="resetBtn" style="margin-top:18px;">Limpiar</button>
+</div>
+
+<div class="layout">
+  <div class="card">
+    <h3>Top 10 productos con mayor diferencia €</h3>
+    <div class="chart-wrap"><canvas id="topDiffChart"></canvas></div>
+  </div>
+  <div class="card">
+    <h3>Distribución de margen % por categoría</h3>
+    <div class="chart-wrap"><canvas id="catChart"></canvas></div>
+  </div>
+</div>
+
+<div class="table-wrap">
+  <div id="grid"></div>
+</div>
+
+</div>
+<!-- ============ TAB CATÁLOGO ============ -->
+<div class="tab-content" id="tab-catalogo">
+
+<div class="cat-header-row">
+  <div>
+    <strong style="font-size:16px;">Catálogo para amigos y familiares</strong>
+    <div style="color:#666;font-size:12px;margin-top:4px;">Solo productos disponibles en B2B. Antes de compartir, cierra el panel de ajustes.</div>
+  </div>
+  <button class="settings-toggle" id="settingsBtn">⚙️ Ajustes (solo tú)</button>
+</div>
+
+<div class="settings" id="settings">
+  <h3>Panel privado — oculta antes de compartir</h3>
+  <div class="settings-row">
+    <label>% sobre coste B2B
+      <input type="number" id="markup" value="17" min="0" max="100" step="1" style="width:80px;">
+    </label>
+    <label>Redondeo
+      <select id="rounding">
+        <option value="0.01">Sin redondear (43,98 €)</option>
+        <option value="0.05">A 5 céntimos (43,95 €)</option>
+        <option value="0.10">A 10 céntimos (44,00 €)</option>
+        <option value="0.50">A 50 céntimos (44,00 €)</option>
+        <option value="1">A 1 € (44 €)</option>
+      </select>
+    </label>
+    <label>Solo con ahorro real
+      <select id="onlySavings">
+        <option value="1">Sí (recomendado)</option>
+        <option value="0">No</option>
+      </select>
+    </label>
+    <label>Solo disponibles
+      <select id="onlyAvail">
+        <option value="1">Sí</option>
+        <option value="0">No</option>
+      </select>
+    </label>
+  </div>
+  <div class="note">Para compartir: 1) cierra este panel con el botón ⚙️ 2) cambia a esta pestaña 3) screenshot o Ctrl+P para PDF. Los ajustes ya no salen.</div>
+</div>
+
+<div class="share-bar">
+  <button class="share-btn wa" id="shareWhatsApp">💬 Compartir por WhatsApp</button>
+  <button class="share-btn copy" id="shareCopy">📋 Copiar texto</button>
+  <button class="share-btn dl" id="shareDownload">⬇️ Descargar .txt</button>
+  <button class="share-btn print" id="sharePrint">🖨️ Imprimir / PDF</button>
+</div>
+
+<div class="banner">
+  <h2>Precios especiales para ti 💪</h2>
+  <p>Catálogo deportivo 101 Other Level. <strong id="bannerSavings">Ahorra hasta un 30 %</strong> sobre el PVP oficial de la web.</p>
+</div>
+
+<div id="catalog"></div>
+
+<div class="footer-note">
+  Productos sujetos a disponibilidad. PVP de referencia: 101otherlevel.com. Pedido mínimo y plazo según pedido conjunto.
+</div>
+
+</div>
+<!-- ============ TAB LISTA DE COMPRA ============ -->
+<div class="tab-content active" id="tab-lista">
+
+<div class="admin-only flex" style="background:#fff8e1; border:1px solid #fbc02d; border-radius:8px; padding:10px 14px; margin-bottom:14px; gap:18px; align-items:center; flex-wrap:wrap;">
+  <span style="font-size:13px; color:#8a6500;"><strong>🔒 Margen aplicado (privado):</strong></span>
+  <div style="display:flex; align-items:center; gap:8px;">
+    <input type="number" id="markupLista" min="0" max="100" step="1" style="width:70px; padding:6px 10px; border:1px solid #ddd; border-radius:5px; font-size:14px; font-weight:600; text-align:center;">
+    <span style="font-size:14px; font-weight:600;">%</span>
+  </div>
+  <span style="font-size:12px; color:#666; font-style:italic;">Sincronizado con la pestaña "Catálogo para compartir"</span>
+</div>
+
+<div class="list-toolbar">
+  <div class="list-totals">
+    <div class="list-totals-info">
+      <div class="stat">
+        <span class="stat-label">Productos</span>
+        <span class="stat-value" id="listCountUnits">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Referencias</span>
+        <span class="stat-value" id="listCountRefs">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Total a pagar</span>
+        <span class="stat-value total" id="listTotal">0,00 €</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">PVP en la web</span>
+        <span class="stat-value pvp-total" id="listPvpTotal">0,00 €</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Ahorras</span>
+        <span class="stat-value total" id="listSaving">0,00 €</span>
+      </div>
+      <div class="stat profit-stat profit-info">
+        <span class="stat-label">💰 Tu ganancia (€)</span>
+        <span class="stat-value" id="listProfit">0,00 €</span>
+      </div>
+      <div class="stat profit-stat profit-info">
+        <span class="stat-label">% sobre venta</span>
+        <span class="stat-value" id="listProfitPct">0%</span>
+      </div>
+    </div>
+    <div class="list-actions">
+      <button class="list-btn primary" id="orderWhatsApp">💬 Enviar pedido por WhatsApp</button>
+      <button class="list-btn secondary" id="orderCopy">📋 Copiar lista</button>
+      <button class="list-btn secondary" id="orderPrint">🖨️ Imprimir</button>
+      <button class="list-btn danger" id="orderClear">🗑️ Vaciar</button>
+    </div>
+  </div>
+</div>
+
+<div class="list-filters">
+  <input type="text" id="listSearch" placeholder="🔍 Buscar producto...">
+  <select id="listCatFilter"><option value="">Todas las categorías</option></select>
+  <select id="listInCartOnly">
+    <option value="">Ver todos los productos</option>
+    <option value="1">Ver solo lo que voy a pedir</option>
+  </select>
+</div>
+
+<div id="productGrid"></div>
+
+<div class="footer-note" style="margin-top:24px;">
+  PVP de referencia: 101otherlevel.com. La lista se guarda automáticamente en este navegador.
+</div>
+
+</div>
+
+<div class="share-toast" id="shareToast"></div>
+
+<div class="admin-floating">
+  <button id="adminToggle" title="Activa el modo admin (privado)">🔒 Admin</button>
+</div>
+
+<div class="modal-bg" id="adminModal">
+  <div class="modal">
+    <h2>🔐 Acceso administrador</h2>
+    <div class="modal-sub">Introduce tu usuario y contraseña.</div>
+    <label for="adminUser">Usuario</label>
+    <input type="text" id="adminUser" autocomplete="off" placeholder="Usuario">
+    <label for="adminPassword">Contraseña</label>
+    <input type="password" id="adminPassword" autocomplete="off" placeholder="••••••••">
+    <div class="modal-error" id="adminError">Usuario o contraseña incorrectos.</div>
+    <div class="modal-actions">
+      <button class="modal-btn secondary" id="adminCancel">Cancelar</button>
+      <button class="modal-btn primary" id="adminSubmit">Entrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const IMG_BASE = 'https://cdn.shopify.com/s/files/';
+const IMG_MAP = {
+  "PACK-003":"1/0972/6463/2072/files/PACK_10_UD_GELES_LIMA_81G_front.webp",
+  "PACK-010":"1/0972/6463/2072/files/PACK_10_UD_GELES_SANDIA_81G_front.webp",
+  "PACK-009":"1/0972/6463/2072/files/PACK_10_UD_GELES_NEUTRO_81G_front.webp",
+  "PACK-008":"1/0972/6463/2072/files/PACK_10_UD_GELES_CHOCO_CREAM_81G_front.webp",
+  "PACK-004":"1/0972/6463/2072/files/ESTUCHE_24_GELES_FRESA_WEB_101.webp",
+  "PACK-035":"1/0972/6463/2072/files/Pack_especial_NO_KRAMP_5_Shot_5_Gummies_01.png",
+  "PACK-029":"1/0972/6463/2072/files/PACK_24_GELES_SHOT_NO_KRAMP_LEVEL_Energy_101_-_front.png",
+  "PACK-027":"1/0972/6463/2072/files/PACK_30_GUMMY_NO_KRAMP_LEVEL_Energy_101_-_front.png",
+  "NOK-006":"1/0972/6463/2072/files/GEL_SHOT_NO_KRAMP_LEVEL_Energy_101_-_front.webp",
+  "NOK-001":"1/0972/6463/2072/files/GUMMY_NO_KRAMP_LEVEL_Energy_101_-_front.webp",
+  "AC-007":"1/0972/6463/2072/files/Bidon101Teamfluor750ml.jpg",
+  "PACK-033":"1/0972/6463/2072/files/pack-marathon-producto1.webp",
+  "BA-001":"1/0972/6463/2072/files/Detallebandanatubular101MIND_front.jpg",
+  "PACK-032":"1/0972/6463/2072/files/FOTO-PACK-GUMMY-WEB.png",
+  "TO-011":"1/0972/6463/2072/files/ToallaFitnessGrey25-26_01.jpg",
+  "PACK-031":"1/0972/6463/2072/files/101_PACK_DEGUSTACION_GELES_81G.webp",
+  "GO-011":"1/0972/6463/2072/files/Gorra-101-Trucker-Neon-Yellow-front.jpg",
+  "RE-001":"1/0972/6463/2072/files/Recovery_brownie_front_101otherlevel.jpg",
+  "GE-001":"1/0972/6463/2072/files/gel-energetico-lima_16d9d493-c823-4916-9221-d2ce323b7bae.jpg",
+  "CR-001":"1/0972/6463/2072/files/Creatina_front_101otherlevel.jpg",
+  "BE-001":"1/0972/6463/2072/files/barrita-energetica-banana_968a3acb-ac65-45cb-a520-223b8ce45fba.jpg",
+  "PACK-002":"1/0972/6463/2072/files/pack-24-barritas-banana.jpg",
+  "PACK-001":"1/0972/6463/2072/files/pack-24-barritas-choco-y-pistacho.jpg",
+  "AC-002":"1/0972/6463/2072/files/shaker-cerrado.jpg",
+  "PACK-006":"1/0972/6463/2072/files/101_PACK_DEGUSTACION_BARRITAS_AVENA_front.webp",
+  "CA-010":"1/0972/6463/2072/files/CAMISETA-VERDE-DELANTERA.png",
+  "CA-011":"1/0972/6463/2072/files/CAMISETA-VERDE-DELANTERA.png",
+  "CA-012":"1/0972/6463/2072/files/CAMISETA-VERDE-DELANTERA.png",
+  "CA-013":"1/0972/6463/2072/files/CAMISETA-VERDE-DELANTERA.png",
+  "CA-014":"1/0972/6463/2072/files/CAMISETA-VERDE-DELANTERA.png",
+  "CA-015":"1/0972/6463/2072/files/CAMISETA-VERDE-DELANTERA.png",
+  "CA-020":"1/0972/6463/2072/files/CAMISETA-BLANCA-DELANTERA.png",
+  "CA-021":"1/0972/6463/2072/files/CAMISETA-BLANCA-DELANTERA.png",
+  "CA-022":"1/0972/6463/2072/files/CAMISETA-BLANCA-DELANTERA.png",
+  "CA-023":"1/0972/6463/2072/files/CAMISETA-BLANCA-DELANTERA.png",
+  "CA-024":"1/0972/6463/2072/files/CAMISETA-BLANCA-DELANTERA.png",
+  "CA-025":"1/0972/6463/2072/files/CAMISETA-BLANCA-DELANTERA.png",
+  "CL-020":"1/0972/6463/2072/files/CalcetinestecnicosOne-o-One_front.jpg",
+  "CL-021":"1/0972/6463/2072/files/CalcetinestecnicosOne-o-One_front.jpg",
+  "CL-022":"1/0972/6463/2072/files/CalcetinestecnicosOne-o-One_front.jpg",
+  "GO-010":"1/0972/6463/2072/files/Gorra-101-Trucker-Grey-front.jpg",
+  "CF-001":"1/0972/6463/2072/files/capsulas-cafeina-express.png",
+  "IS-002":"1/0972/6463/2072/files/ISOTONIC_Naranja_101otherlevel.jpg",
+  "RE-002":"1/0972/6463/2072/files/Recovery_maracuya_front_101otherlevel.jpg",
+  "GE-006":"1/0972/6463/2072/files/gel-fructosa-fresa-31gr.png",
+  "GE-009":"1/0972/6463/2072/files/gel-fructosa-neutro-31gr.png",
+  "GE-010":"1/0972/6463/2072/files/gel-fructosa-sandia.png",
+  "GE-005":"1/0972/6463/2072/files/gel-fructosa-sandia-81gr.png",
+  "GE-003":"1/0972/6463/2072/files/gel-fructosa-chocolate-81gr.jpg",
+  "PACK-012":"1/0972/6463/2072/files/pack-24-lima-gel-energetico-31gr.png",
+  "PACK-014":"1/0972/6463/2072/files/pack-24-neutro-gel-energetico-31gr.png",
+  "PR-001":"1/0972/6463/2072/files/Proteina_whey_choco_front_101otherlevel.jpg",
+  "PR-002":"1/0972/6463/2072/files/Proteina_whey_vainilla_front_101otherlevel.jpg",
+  "PR-003":"1/0972/6463/2072/files/Proteina_whey_sandia_front_101otherlevel.jpg",
+  "PR-006":"1/0972/6463/2072/files/Proteina_egg_sandia_front_101otherlevel.jpg",
+  "PR-004":"1/0972/6463/2072/files/Proteina_egg_choco_front_101otherlevel.jpg",
+  "AC-006":"1/0972/6463/2072/files/SHAKER-3.png",
+  "PACK-021":"1/0972/6463/2072/files/PACK-30-UNIDADES-GLUCOLEVEL-GUMMY-SABOR-PLATANO-BARRITA-GOMINOLA-101-OTHER-LEVEL.png",
+  "PACK-022":"1/0972/6463/2072/files/PACK-30-UNIDADES-GLUCOLEVEL-GUMMY-SABOR-MANGO-BARRITA-GOMINOLA-101-OTHER-LEVEL.png",
+  "PACK-025":"1/0972/6463/2072/files/PACK-30-UNIDADES-GLUCOLEVEL-GUMMY-SABOR-FRESA-BARRITA-GOMINOLA-101-OTHER-LEVEL.png",
+  "GOM-005":"1/0972/6463/2072/files/101-OTHER-LEVEL-BARRITA-DE-GOMINOLA-SABOR-FRESA.png",
+  "GOM-002":"1/0972/6463/2072/files/101-OTHER-LEVEL-BARRITA-DE-GOMINOLA-SABOR-BANANA.png",
+  "GOM-003":"1/0972/6463/2072/files/101-OTHER-LEVEL-BARRITA-DE-GOMINOLA-SABOR-COLA_8fd66123-e06c-41c6-8fe4-a46848f6b8f3.png",
+  "GE-007":"1/0972/6463/2072/files/gel-fructosa-lima-31gr_90615675-7f19-45a9-82d6-5f681bb13db5.png",
+  "IS-001":"1/0972/6463/2072/files/ISOTONIC_Lima_101otherlevel.jpg",
+  "GE-002":"1/0972/6463/2072/files/gel-energetico-fresa-101_f9536b56-4f71-41fd-b4a7-d4a1b4a05e24.jpg",
+  "BE-002":"1/0972/6463/2072/files/Barrita-energetica-pistacho-y-chocolate.jpg",
+  "SL-001":"1/0972/6463/2072/files/1-1.png",
+  "GE-008":"1/0972/6463/2072/files/gel-fructosa-chocolate-31gr.png",
+  "GE-004":"1/0972/6463/2072/files/gel-fructosa-sneutro-81gr.png",
+  "PACK-011":"1/0972/6463/2072/files/pack-24-fresa-crema-gel-energetico-31gr.png",
+  "PACK-013":"1/0972/6463/2072/files/pack-24-chocolate-gel-energetico-31gr.png",
+  "PACK-015":"1/0972/6463/2072/files/pack-24-sandia-gel-energetico-31gr.png",
+  "AC-003":"1/0972/6463/2072/files/Bidon101Teamfluor500ml.jpg",
+  "PR-005":"1/0972/6463/2072/files/Proteina_egg_vainilla_front_101otherlevel.jpg",
+  "PACK-023":"1/0972/6463/2072/files/PACK-30-UNIDADES-GLUCOLEVEL-GUMMY-BARRITA-GOMINOLA-101-OTHER-LEVEL.png",
+  "PACK-024":"1/0972/6463/2072/files/PACK-30-UNIDADES-GLUCOLEVEL-GUMMY-SABOR-COLA-CON-CAFEINA-BARRITA-GOMINOLA-101-OTHER-LEVEL.png",
+  "GOM-004":"1/0972/6463/2072/files/101-OTHER-LEVEL-BARRITA-DE-GOMINOLA-SABOR-CHERRIE.png",
+  "GOM-001":"1/0972/6463/2072/files/101-OTHER-LEVEL-BARRITA-DE-GOMINOLA-SABOR-MANGO.png"
+};
+
+const RAW = [
+["PACK-003","Pack 24 ud. FRUCTOSE GEL LEVEL con Cafeína - sabor Lima 81 g",62.7,57,37.59,34.17,0.1,1,1,"Energía y resistencia"],
+["PACK-010","Pack 24 ud. FRUCTOSE GEL LEVEL con Cafeína - sabor Sandía 81 g",62.7,57,37.59,34.17,0.1,1,1,"Energía y resistencia"],
+["PACK-009","Pack 24 ud. FRUCTOSE GEL LEVEL - sabor Neutro 81 g",62.7,57,37.59,34.17,0.1,1,1,"Energía y resistencia"],
+["PACK-008","Pack 24 ud. FRUCTOSE GEL LEVEL - sabor Crema de Chocolate 81 g",62.7,57,37.59,34.17,0.1,1,1,"Energía y resistencia"],
+["PACK-004","Pack 24 ud. FRUCTOSE GEL LEVEL - sabor Fresa y Nata 81 g",62.7,57,37.59,34.17,0.1,1,1,"Energía y resistencia"],
+["PACK-035","Pack Especial NO-KRAMP LEVEL: 5 Shots + 5 Gummies",29,26.36,null,null,0.1,1,0,"Energía y resistencia"],
+["PACK-029","Pack 24 ud. SHOT NO-KRAMP LEVEL - sabor Energy 61g",62.7,57,41.76,37.96,0.1,1,1,"Energía y resistencia"],
+["PACK-027","Pack 30 ud. GUMMY NO-KRAMP LEVEL - sabor Energy 41g",78.3,71.18,52.2,47.45,0.1,1,1,"Energía y resistencia"],
+["NOK-006","SHOT NO-KRAMP LEVEL",2.9,2.64,null,null,0.1,1,0,"Energía y resistencia"],
+["NOK-001","GUMMY NO-KRAMP LEVEL",2.9,2.64,null,null,0.1,1,0,"Energía y resistencia"],
+["AC-007","Bidón Ultra 750 ml Team 101 color Amarillo Flúor",9.9,8.18,7.09,5.86,0.21,1,1,"Ropa y accesorios"],
+["PACK-033","PACK MARATHON",19.9,18.09,null,null,0.1,1,0,"TOP PRODUCTS"],
+["BA-001","Bandana tubular Mind - Color Negro",10,8.26,10,8.27,0.21,1,1,"Ropa y accesorios"],
+["PACK-032","Pack degustación 15 ud. GLUCO LEVEL GUMMY 40 g",29.9,27.18,null,null,0.1,1,0,"Barritas energéticas"],
+["TO-011","Toalla fitness - Color Grey",16,13.22,11.2,9.26,0.21,0,1,"Ropa y accesorios"],
+["PACK-031","Pack degustación geles |  FRUCTOSE GEL LEVEL",24.5,22.27,null,null,0.1,1,0,"Fructose Gel Level 31g"],
+["PACK-026","Pack degustación geles |  FRUCTOSE GEL LEVEL",16.5,15,null,null,0.1,0,0,"Fructose Gel Level 31g"],
+["GO-011","Gorra Trucker - Color Neon Yellow",25,20.66,17.5,14.46,0.21,1,1,"Ropa y accesorios"],
+["RE-001","RECOVERY LEVEL + Leucina - sabor Brownie + MINI Shaker de regalo",30,27.27,18,16.36,0.1,1,1,"Construcción muscular y fuerza"],
+["GE-001","FRUCTOSE GEL LEVEL con Cafeína - sabor Lima Fresh 81 g",2.9,2.64,null,null,0.1,1,0,"Energía y resistencia"],
+["CR-001","CREATINE LEVEL Creapure® - 301 g",30,27.27,18,16.36,0.1,1,1,"Construcción muscular y fuerza"],
+["BE-001","VEGAN ENERGY BAR - con Banana 51 g",2.45,2.23,null,null,0.1,1,0,"Barritas de avena"],
+["PACK-002","Pack 30 ud. VEGAN ENERGY BAR - con Banana",73.5,66.82,44.1,40.09,0.1,1,1,"Barritas de avena"],
+["PACK-001","Pack 30 ud. VEGAN ENERGY BAR - con Pistacho y Chocolate",73.5,66.82,44.1,40.09,0.1,1,1,"Barritas de avena"],
+["AC-002","Shaker 101",7.9,6.53,4.74,3.92,0.21,0,1,"Ropa y accesorios"],
+["PACK-006","Pack variado 10 ud. VEGAN ENERGY BAR",20.8,18.91,null,null,0.1,1,0,"Barritas de avena"],
+["CA-010","Camiseta técnica Unisex 101 - color Verde XS",35,28.93,42.35,35,0.21,0,1,"Ropa y accesorios"],
+["CA-011","Camiseta técnica Unisex 101 - color Verde S",35,28.93,42.35,35,0.21,0,1,"Ropa y accesorios"],
+["CA-012","Camiseta técnica Unisex 101 - color Verde M",35,28.93,42.35,35,0.21,1,1,"Ropa y accesorios"],
+["CA-013","Camiseta técnica Unisex 101 - color Verde L",35,28.93,42.35,35,0.21,1,1,"Ropa y accesorios"],
+["CA-014","Camiseta técnica Unisex 101 - color Verde XL",35,28.93,42.35,35,0.21,1,1,"Ropa y accesorios"],
+["CA-015","Camiseta técnica Unisex 101 - color Verde XXL",35,28.93,42.35,35,0.21,0,1,"Ropa y accesorios"],
+["CA-020","Camiseta técnica Unisex 101 - color Blanco XS",35,28.93,42.35,35,0.21,1,1,"Ropa y accesorios"],
+["CA-021","Camiseta técnica Unisex 101 - color Blanco S",35,28.93,42.35,35,0.21,1,1,"Ropa y accesorios"],
+["CA-022","Camiseta técnica Unisex 101 - color Blanco M",35,28.93,42.35,35,0.21,1,1,"Ropa y accesorios"],
+["CA-023","Camiseta técnica Unisex 101 - color Blanco L",35,28.93,42.35,35,0.21,1,1,"Ropa y accesorios"],
+["CA-024","Camiseta técnica Unisex 101 - color Blanco XL",35,28.93,42.35,35,0.21,1,1,"Ropa y accesorios"],
+["CA-025","Camiseta técnica Unisex 101 - color Blanco XXL",35,28.93,42.35,35,0.21,0,1,"Ropa y accesorios"],
+["CL-020","Calcetines técnicos One-o-One - color Blanco M",12,9.92,12,9.92,0.21,1,1,"Ropa y accesorios"],
+["CL-021","Calcetines técnicos One-o-One - color Blanco L",12,9.92,12,9.92,0.21,1,1,"Ropa y accesorios"],
+["CL-022","Calcetines técnicos One-o-One - color Blanco XL",12,9.92,12,9.92,0.21,1,1,"Ropa y accesorios"],
+["GO-010","Gorra 101 Trucker color Grey",25,20.66,17.5,14.46,0.21,1,1,"Ropa y accesorios"],
+["CF-001","CAFFEINE EXPRESS CAPS - Cápsulas de cafeína",19,17.27,11.4,10.36,0.1,1,1,"Cápsulas"],
+["IS-002","ISOTONIC LEVEL - sabor Naranja",22,20,13.2,12,0.1,1,1,"Energía y resistencia"],
+["RE-002","RECOVERY LEVEL + Leucina - sabor Maracuyá + MINI Shaker de regalo",30,27.27,18,16.36,0.1,1,1,"Construcción muscular y fuerza"],
+["GE-006","FRUCTOSE GEL LEVEL - sabor Fresa y Nata 31 g",1.25,1.14,null,null,0.1,1,0,"Energía y resistencia"],
+["GE-009","FRUCTOSE GEL LEVEL - sabor Neutro 31 g",1.25,1.14,null,null,0.1,1,0,"Energía y resistencia"],
+["GE-010","FRUCTOSE GEL LEVEL con Cafeína - sabor Sandía 31 g",1.25,1.14,null,null,0.1,1,0,"Energía y resistencia"],
+["GE-005","FRUCTOSE GEL LEVEL con Cafeína - sabor Sandía 81 g",2.9,2.64,null,null,0.1,1,0,"Energía y resistencia"],
+["GE-003","FRUCTOSE GEL LEVEL - sabor Crema de Chocolate 81 g",2.9,2.64,null,null,0.1,1,0,"Energía y resistencia"],
+["PACK-012","Pack 24 ud. FRUCTOSE GEL LEVEL con Cafeína - sabor Lima Fresh 31 g",27,24.55,16.2,14.73,0.1,1,1,"Energía y resistencia"],
+["PACK-014","Pack 24 ud. FRUCTOSE GEL LEVEL - sabor Neutro 31 g",27,24.55,16.2,14.73,0.1,1,1,"Energía y resistencia"],
+["PR-001","WHEY PROTEIN LEVEL LACPRODAN® 910 g - sabor Chocolate",39,35.45,27.3,24.82,0.1,1,1,"Construcción muscular y fuerza"],
+["PR-002","WHEY PROTEIN LEVEL LACPRODAN® 910 g - sabor Vainilla",39,35.45,27.3,24.82,0.1,1,1,"Construcción muscular y fuerza"],
+["PR-003","WHEY PROTEIN LEVEL LACPRODAN® 910 g - sabor Sandía",39,35.45,27.3,24.82,0.1,1,1,"Construcción muscular y fuerza"],
+["PR-006","EGG WHITE PROTEIN POWDER 1001 g - sabor Sandía",30,27.27,21,19.09,0.1,1,1,"Construcción muscular y fuerza"],
+["PR-004","EGG WHITE PROTEIN POWDER 1001 g - sabor Chocolate",30,27.27,21,19.09,0.1,1,1,"Construcción muscular y fuerza"],
+["AC-006","Shaker mini 101",4.9,4.05,2.44,2.02,0.21,1,1,"Ropa y accesorios"],
+["PACK-021","Pack 30 ud. GLUCO LEVEL GUMMY - sabor Banana 40 g",72,65.45,43.2,39.27,0.1,1,1,"Barritas energéticas"],
+["PACK-022","Pack 30 ud. GLUCO LEVEL GUMMY - sabor Mango 40 g",72,65.45,43.2,39.27,0.1,1,1,"Barritas energéticas"],
+["PACK-025","Pack 30 ud. GLUCO LEVEL GUMMY - sabor Strawberry 40 g",72,65.45,43.2,39.27,0.1,1,1,"Barritas energéticas"],
+["GOM-005","GLUCO LEVEL GUMMY - sabor Strawberry 40 g",2.4,2.18,null,null,0.1,1,0,"Barritas energéticas"],
+["GOM-002","GLUCO LEVEL GUMMY - sabor Banana 40 g",2.4,2.18,null,null,0.1,1,0,"Barritas energéticas"],
+["GOM-003","GLUCO LEVEL GUMMY - sabor Cola 40 g",2.4,2.18,null,null,0.1,1,0,"Barritas energéticas"],
+["GE-007","FRUCTOSE GEL LEVEL con Cafeína - sabor Lima Fresh 31 g",1.25,1.14,null,null,0.1,0,0,"Energía y resistencia"],
+["IS-001","ISOTONIC LEVEL - sabor Lima",22,20,13.2,12,0.1,1,1,"Energía y resistencia"],
+["GE-002","FRUCTOSE GEL LEVEL - sabor Fresa y Nata 81 g",2.9,2.64,null,null,0.1,1,0,"Energía y resistencia"],
+["BE-002","VEGAN ENERGY BAR - con Pistacho y Chocolate 51 g",2.45,2.23,null,null,0.1,1,0,"Barritas de avena"],
+["SL-001","SALTS CAPS ELECTROLEVEL - Cápsulas de Sales",33,30,19.8,18,0.1,1,1,"Cápsulas"],
+["GE-008","FRUCTOSE GEL LEVEL - sabor Crema de Chocolate 31 g",1.25,1.14,null,null,0.1,1,0,"Energía y resistencia"],
+["GE-004","FRUCTOSE GEL LEVEL - sabor Neutro 81 g",2.9,2.64,null,null,0.1,1,0,"Energía y resistencia"],
+["PACK-011","Pack 24 ud. FRUCTOSE GEL LEVEL - sabor Fresa y Nata 31 g",27,24.55,16.2,14.73,0.1,0,1,"Energía y resistencia"],
+["PACK-013","Pack 24 ud. FRUCTOSE GEL LEVEL - sabor Crema de Chocolate 31 g",27,24.55,16.2,14.73,0.1,1,1,"Energía y resistencia"],
+["PACK-015","Pack 24 ud. FRUCTOSE GEL LEVEL con Cafeína - sabor Sandía 31 g",27,24.55,16.2,14.73,0.1,1,1,"Energía y resistencia"],
+["AC-003","Bidón 500 ml 101 Team color Amarillo Flúor",5.9,4.88,3.55,2.93,0.21,1,1,"Ropa y accesorios"],
+["PR-005","EGG WHITE PROTEIN POWDER 1001 g - sabor Vainilla",30,27.27,21,19.09,0.1,1,1,"Construcción muscular y fuerza"],
+["PACK-023","Pack 30 ud. GLUCO LEVEL GUMMY - sabor Cherry 40 g",72,65.45,43.2,39.27,0.1,1,1,"Barritas energéticas"],
+["PACK-024","Pack 30 ud. GLUCO LEVEL GUMMY - sabor Cola 40 g",72,65.45,43.2,39.27,0.1,1,1,"Barritas energéticas"],
+["GOM-004","GLUCO LEVEL GUMMY - sabor Cherry 40 g",2.4,2.18,null,null,0.1,1,0,"Barritas energéticas"],
+["GOM-001","GLUCO LEVEL GUMMY - sabor Mango 40 g",2.4,2.18,null,null,0.1,1,0,"Barritas energéticas"]
+];
+
+const DATA = RAW.map(r => ({
+  sku: r[0], title: r[1], pvp: r[2], pvp_sin: r[3],
+  b2b_iva: r[4], b2b_sin: r[5], iva: r[6],
+  avail: r[7] === 1, match: r[8] === 1, cat: r[9]
+})).map(d => {
+  const diff_iva = d.match ? +(d.pvp - d.b2b_iva).toFixed(2) : null;
+  const diff_sin = d.match ? +(d.pvp_sin - d.b2b_sin).toFixed(2) : null;
+  const margin_iva = d.match && d.pvp ? +(((d.pvp - d.b2b_iva) / d.pvp) * 100).toFixed(1) : null;
+  const margin_sin = d.match && d.pvp_sin ? +(((d.pvp_sin - d.b2b_sin) / d.pvp_sin) * 100).toFixed(1) : null;
+  const markup = d.match && d.b2b_iva ? +(((d.pvp - d.b2b_iva) / d.b2b_iva) * 100).toFixed(1) : null;
+  return { ...d, diff_iva, diff_sin, margin_iva, margin_sin, markup };
+});
+
+/* ============ TABS ============ */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ============ ANALISIS ============ */
+const cats = [...new Set(DATA.map(d => d.cat))].sort();
+const catSel = document.getElementById('filterCat');
+cats.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; catSel.appendChild(o); });
+
+const state = { mode: 'iva' };
+
+function getFiltered() {
+  const cat = document.getElementById('filterCat').value;
+  const mt = document.getElementById('filterMatch').value;
+  const av = document.getElementById('filterAvail').value;
+  const q = document.getElementById('filterSearch').value.toLowerCase();
+  const minMargin = parseFloat(document.getElementById('filterMargin').value);
+  return DATA.filter(d => {
+    if (cat && d.cat !== cat) return false;
+    if (mt !== '' && (d.match ? '1' : '0') !== mt) return false;
+    if (av !== '' && (d.avail ? '1' : '0') !== av) return false;
+    if (q && !(d.sku.toLowerCase().includes(q) || d.title.toLowerCase().includes(q))) return false;
+    if (!isNaN(minMargin)) {
+      const m = state.mode === 'iva' ? d.margin_iva : d.margin_sin;
+      if (m === null || m < minMargin) return false;
+    }
+    return true;
+  });
+}
+
+let grid = null;
+let topChart = null;
+let catChart = null;
+
+function fmt(v, dec = 2) { return v === null || v === undefined ? '—' : Number(v).toFixed(dec).replace('.', ','); }
+
+function renderKPIs(rows) {
+  const matched = rows.filter(r => r.match);
+  const total = rows.length;
+  const totalMatched = matched.length;
+  const mode = state.mode;
+  const marginField = mode === 'iva' ? 'margin_iva' : 'margin_sin';
+  const margins = matched.map(r => r[marginField]).filter(v => v !== null);
+  const avgMargin = margins.length ? margins.reduce((a,b)=>a+b,0)/margins.length : 0;
+  const minMargin = margins.length ? Math.min(...margins) : 0;
+  const maxMargin = margins.length ? Math.max(...margins) : 0;
+  const sumPvp = matched.reduce((s,r)=> s + (mode === 'iva' ? r.pvp : r.pvp_sin), 0);
+  const sumB2b = matched.reduce((s,r)=> s + (mode === 'iva' ? r.b2b_iva : r.b2b_sin), 0);
+  const globalMargin = sumPvp ? ((sumPvp - sumB2b) / sumPvp) * 100 : 0;
+
+  const html = [
+    `<div class="kpi"><div class="kpi-label">Productos visibles</div><div class="kpi-value">${total}</div><div class="kpi-sub">de ${DATA.length} totales</div></div>`,
+    `<div class="kpi"><div class="kpi-label">Con precio B2B</div><div class="kpi-value green">${totalMatched}</div><div class="kpi-sub">${total ? Math.round(totalMatched/total*100) : 0}% del visible</div></div>`,
+    `<div class="kpi"><div class="kpi-label">Margen medio ${mode==='iva'?'(c/IVA)':'(s/IVA)'}</div><div class="kpi-value ${avgMargin>=30?'green':avgMargin>=15?'amber':'red'}">${avgMargin.toFixed(1)}%</div><div class="kpi-sub">PVP → B2B</div></div>`,
+    `<div class="kpi"><div class="kpi-label">Rango margen</div><div class="kpi-value">${minMargin.toFixed(0)}% – ${maxMargin.toFixed(0)}%</div><div class="kpi-sub">mín y máx</div></div>`,
+    `<div class="kpi"><div class="kpi-label">Margen total cartera</div><div class="kpi-value ${globalMargin>=30?'green':'amber'}">${globalMargin.toFixed(1)}%</div><div class="kpi-sub">€${(sumPvp-sumB2b).toFixed(0)} sobre €${sumPvp.toFixed(0)}</div></div>`
+  ].join('');
+  document.getElementById('kpis').innerHTML = html;
+}
+
+function renderCharts(rows) {
+  const mode = state.mode;
+  const diffField = mode === 'iva' ? 'diff_iva' : 'diff_sin';
+  const marginField = mode === 'iva' ? 'margin_iva' : 'margin_sin';
+
+  const top = [...rows].filter(r => r.match).sort((a,b)=>b[diffField]-a[diffField]).slice(0,10);
+  if (topChart) topChart.destroy();
+  topChart = new Chart(document.getElementById('topDiffChart'), {
+    type: 'bar',
+    data: {
+      labels: top.map(r => r.title.length > 35 ? r.title.slice(0,32)+'…' : r.title),
+      datasets: [{ label: 'Diferencia €', data: top.map(r => r[diffField]), backgroundColor: '#3b82f6' }]
+    },
+    options: { indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `${ctx.parsed.x.toFixed(2)} €` } } }, scales: { x: { beginAtZero: true } }, maintainAspectRatio: false }
+  });
+
+  const byCat = {};
+  rows.filter(r => r.match).forEach(r => {
+    if (!byCat[r.cat]) byCat[r.cat] = [];
+    byCat[r.cat].push(r[marginField]);
+  });
+  const labels = Object.keys(byCat);
+  const avgs = labels.map(c => byCat[c].reduce((a,b)=>a+b,0)/byCat[c].length);
+  if (catChart) catChart.destroy();
+  catChart = new Chart(document.getElementById('catChart'), {
+    type: 'bar',
+    data: { labels: labels.map(l => l.length > 20 ? l.slice(0,18)+'…' : l), datasets: [{ label: 'Margen medio %', data: avgs, backgroundColor: '#10b981' }] },
+    options: { plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `${ctx.parsed.y.toFixed(1)}%` } } }, scales: { y: { beginAtZero: true, max: 100 } }, maintainAspectRatio: false }
+  });
+}
+
+function renderGrid(rows) {
+  const mode = state.mode;
+  const pvpKey = mode === 'iva' ? 'pvp' : 'pvp_sin';
+  const b2bKey = mode === 'iva' ? 'b2b_iva' : 'b2b_sin';
+  const diffKey = mode === 'iva' ? 'diff_iva' : 'diff_sin';
+  const marginKey = mode === 'iva' ? 'margin_iva' : 'margin_sin';
+
+  const data = rows.map(r => [
+    r.sku,
+    r.title,
+    r.cat,
+    fmt(r[pvpKey]) + ' €',
+    r.match ? fmt(r[b2bKey]) + ' €' : '—',
+    r.match ? { content: (r[diffKey] >= 0 ? '+' : '') + fmt(r[diffKey]) + ' €', cls: r[diffKey] > 0 ? 'diff-positive' : r[diffKey] < 0 ? 'diff-negative' : 'diff-zero' } : '—',
+    r.match ? fmt(r[marginKey], 1) + '%' : '—',
+    r.match ? fmt(r.markup, 1) + '%' : '—',
+    r.match ? '<span class="badge match">Sí</span>' : '<span class="badge nomatch">No</span>',
+    r.avail ? '<span class="badge match">Disp.</span>' : '<span class="badge out">Agotado</span>'
+  ]);
+
+  if (grid) {
+    grid.updateConfig({ data: data.map(row => row.map(c => typeof c === 'object' && c && c.content ? gridjs.html(`<span class="${c.cls}">${c.content}</span>`) : (typeof c === 'string' && c.startsWith('<') ? gridjs.html(c) : c))) }).forceRender();
+  } else {
+    grid = new gridjs.Grid({
+      columns: [
+        { name: 'SKU', width: '95px' },
+        { name: 'Producto' },
+        { name: 'Categoría', width: '140px' },
+        { name: 'PVP', width: '105px' },
+        { name: 'B2B', width: '105px' },
+        { name: 'Diferencia', width: '120px' },
+        { name: 'Margen %', width: '110px' },
+        { name: 'Markup %', width: '110px' },
+        { name: 'En B2B', width: '90px' },
+        { name: 'Stock', width: '100px' }
+      ],
+      data: data.map(row => row.map(c => typeof c === 'object' && c && c.content ? gridjs.html(`<span class="${c.cls}">${c.content}</span>`) : (typeof c === 'string' && c.startsWith('<') ? gridjs.html(c) : c))),
+      sort: true,
+      search: false,
+      pagination: { limit: 50 },
+      style: { table: { 'font-size': '12px' } }
+    }).render(document.getElementById('grid'));
+  }
+}
+
+function refreshAnalisis() {
+  const rows = getFiltered();
+  renderKPIs(rows);
+  renderCharts(rows);
+  renderGrid(rows);
+}
+
+document.getElementById('filterCat').addEventListener('change', refreshAnalisis);
+document.getElementById('filterMatch').addEventListener('change', refreshAnalisis);
+document.getElementById('filterAvail').addEventListener('change', refreshAnalisis);
+document.getElementById('filterSearch').addEventListener('input', refreshAnalisis);
+document.getElementById('filterMargin').addEventListener('input', refreshAnalisis);
+document.getElementById('ivaMode').addEventListener('change', e => { state.mode = e.target.value; refreshAnalisis(); });
+document.getElementById('resetBtn').addEventListener('click', () => {
+  ['filterCat','filterMatch','filterAvail','filterSearch','filterMargin'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('ivaMode').value = 'iva';
+  state.mode = 'iva';
+  refreshAnalisis();
+});
+
+/* ============ CATÁLOGO ============ */
+// Mapeo de categoría interna → categoría visible al cliente
+const CAT_DISPLAY_MAP = {
+  "Energía y resistencia": "Geles, isotónicos y No-Kramps",
+  "Construcción muscular y fuerza": "Proteínas, creatina y recuperación",
+  "Barritas energéticas": "Barritas y Gummies",
+  "Barritas de avena": "Barritas y Gummies",
+  "Cápsulas": "Cápsulas",
+  "Ropa y accesorios": "Accesorios"
+};
+const CAT_ORDER = ["Geles, isotónicos y No-Kramps", "Proteínas, creatina y recuperación", "Barritas y Gummies", "Cápsulas", "Accesorios"];
+
+function roundPrice(p, step) {
+  step = parseFloat(step);
+  if (step >= 1) return Math.round(p);
+  return Math.round(p / step) * step;
+}
+
+function fmtEur(v, decimals = 2) {
+  if (Number.isInteger(v) && decimals === 0) return v + ' €';
+  return v.toFixed(decimals).replace('.', ',') + ' €';
+}
+
+function renderCatalogo() {
+  const markup = parseFloat(document.getElementById('markup').value) || 0;
+  const rounding = document.getElementById('rounding').value;
+  const onlySavings = document.getElementById('onlySavings').value === '1';
+  const onlyAvail = document.getElementById('onlyAvail').value === '1';
+
+  // ÚNICAMENTE productos con B2B (match === true)
+  const rows = DATA
+    .filter(d => d.match)
+    .map(d => {
+      const raw = d.b2b_iva * (1 + markup / 100);
+      const tuPrecio = roundPrice(raw, rounding);
+      const ahorro = +(d.pvp - tuPrecio).toFixed(2);
+      const ahorroPct = d.pvp > 0 ? (ahorro / d.pvp) * 100 : 0;
+      return { ...d, tuPrecio, ahorro, ahorroPct, catDisplay: CAT_DISPLAY_MAP[d.cat] || d.cat };
+    })
+    .filter(r => {
+      if (onlySavings && r.ahorro <= 0) return false;
+      if (onlyAvail && !r.avail) return false;
+      return true;
+    });
+
+  const maxSaving = Math.max(0, ...rows.map(r => r.ahorroPct));
+  document.getElementById('bannerSavings').textContent = `Ahorra hasta un ${Math.round(maxSaving)} %`;
+
+  // Group by display category
+  const byCat = {};
+  for (const r of rows) {
+    if (!byCat[r.catDisplay]) byCat[r.catDisplay] = [];
+    byCat[r.catDisplay].push(r);
+  }
+  const decimals = parseFloat(rounding) >= 1 ? 0 : 2;
+  const ordered = [...CAT_ORDER, ...Object.keys(byCat).filter(c => !CAT_ORDER.includes(c))];
+
+  let html = '';
+  if (rows.length === 0) {
+    html = '<div style="background:#fff;padding:24px;border-radius:8px;text-align:center;color:#999;">No hay productos que mostrar con los filtros actuales. Sube el % o desactiva "Solo con ahorro real".</div>';
+  } else {
+    for (const cat of ordered) {
+      if (!byCat[cat]) continue;
+      html += `<div class="category-section"><h2>${cat}</h2><table class="catalog-table"><thead><tr><th>Producto</th><th class="num">PVP web</th><th class="num">Tu precio</th><th class="num">Ahorras</th></tr></thead><tbody>`;
+      for (const r of byCat[cat]) {
+        const availMark = r.avail ? '' : ' <span style="color:#999;font-size:11px;">(consultar stock)</span>';
+        // Limpieza del título (quita "MINI Shaker de regalo" larguísimo etc.)
+        const cleanTitle = r.title.replace(/\s*\+ (?:mini|MINI) Shaker de regalo/, '');
+        html += `<tr>
+          <td class="product-name">${cleanTitle}${availMark}</td>
+          <td class="num pvp">${fmtEur(r.pvp, decimals)}</td>
+          <td class="num your-price">${fmtEur(r.tuPrecio, decimals)}</td>
+          <td class="num">${r.ahorro > 0 ? `<span class="savings">−${fmtEur(r.ahorro, decimals)} (${Math.round(r.ahorroPct)}%)</span>` : `<span style="color:#dc2626;font-size:12px;">sin ahorro</span>`}</td>
+        </tr>`;
+      }
+      html += '</tbody></table></div>';
+    }
+  }
+  document.getElementById('catalog').innerHTML = html;
+}
+
+document.getElementById('settingsBtn').addEventListener('click', () => {
+  document.getElementById('settings').classList.toggle('open');
+});
+['markup','rounding','onlySavings','onlyAvail'].forEach(id => {
+  document.getElementById(id).addEventListener('input', renderCatalogo);
+  document.getElementById(id).addEventListener('change', renderCatalogo);
+});
+
+/* ============ COMPARTIR ============ */
+function getCatalogRowsForShare() {
+  const markup = parseFloat(document.getElementById('markup').value) || 0;
+  const rounding = document.getElementById('rounding').value;
+  const onlySavings = document.getElementById('onlySavings').value === '1';
+  const onlyAvail = document.getElementById('onlyAvail').value === '1';
+  return DATA.filter(d => d.match).map(d => {
+    const raw = d.b2b_iva * (1 + markup / 100);
+    const tuPrecio = roundPrice(raw, rounding);
+    const ahorro = +(d.pvp - tuPrecio).toFixed(2);
+    const ahorroPct = d.pvp > 0 ? (ahorro / d.pvp) * 100 : 0;
+    return { ...d, tuPrecio, ahorro, ahorroPct, catDisplay: CAT_DISPLAY_MAP[d.cat] || d.cat };
+  }).filter(r => {
+    if (onlySavings && r.ahorro <= 0) return false;
+    if (onlyAvail && !r.avail) return false;
+    return true;
+  });
+}
+
+function buildShareText() {
+  const rows = getCatalogRowsForShare();
+  const rounding = document.getElementById('rounding').value;
+  const decimals = parseFloat(rounding) >= 1 ? 0 : 2;
+  const byCat = {};
+  for (const r of rows) {
+    if (!byCat[r.catDisplay]) byCat[r.catDisplay] = [];
+    byCat[r.catDisplay].push(r);
+  }
+  const ordered = [...CAT_ORDER, ...Object.keys(byCat).filter(c => !CAT_ORDER.includes(c))];
+  const maxSaving = Math.max(0, ...rows.map(r => r.ahorroPct));
+
+  let txt = '🏃 *Catálogo 101 Other Level — Precios especiales*\n';
+  txt += `_Ahorra hasta un ${Math.round(maxSaving)}% sobre el PVP de la web._\n\n`;
+
+  for (const cat of ordered) {
+    if (!byCat[cat]) continue;
+    txt += `*${cat.toUpperCase()}*\n`;
+    for (const r of byCat[cat]) {
+      const cleanTitle = r.title.replace(/\s*\+ (?:mini|MINI) Shaker de regalo/, '');
+      const stockNote = r.avail ? '' : ' (consultar stock)';
+      const pvpStr = fmtEur(r.pvp, decimals);
+      const precioStr = fmtEur(r.tuPrecio, decimals);
+      if (r.ahorro > 0) {
+        txt += `• ${cleanTitle}${stockNote}: ~${pvpStr}~ → *${precioStr}* (-${Math.round(r.ahorroPct)}%)\n`;
+      } else {
+        txt += `• ${cleanTitle}${stockNote}: *${precioStr}*\n`;
+      }
+    }
+    txt += '\n';
+  }
+  txt += '📦 Pedido mínimo y plazo según pedido conjunto.\n';
+  txt += '✉️ Escríbeme por privado para apuntarte al próximo pedido.';
+  return txt;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('shareToast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+document.getElementById('shareWhatsApp').addEventListener('click', () => {
+  const text = buildShareText();
+  const url = 'https://wa.me/?text=' + encodeURIComponent(text);
+  window.open(url, '_blank');
+});
+
+document.getElementById('shareCopy').addEventListener('click', async () => {
+  const text = buildShareText();
+  try {
+    await navigator.clipboard.writeText(text);
+    const btn = document.getElementById('shareCopy');
+    btn.classList.add('copied');
+    btn.textContent = '✓ Copiado';
+    showToast('Texto copiado. Pégalo donde quieras.');
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.textContent = '📋 Copiar texto';
+    }, 2000);
+  } catch (e) {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('Texto copiado.');
+  }
+});
+
+document.getElementById('shareDownload').addEventListener('click', () => {
+  const text = buildShareText();
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const date = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `catalogo-101-${date}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Archivo descargado.');
+});
+
+document.getElementById('sharePrint').addEventListener('click', () => {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector('.tab-btn[data-tab="catalogo"]').classList.add('active');
+  document.getElementById('tab-catalogo').classList.add('active');
+  document.getElementById('settings').classList.remove('open');
+  setTimeout(() => window.print(), 200);
+});
+
+/* ============ LISTA DE COMPRA ============ */
+const CART_KEY = 'cart_101';
+let CART = {};
+try { CART = JSON.parse(localStorage.getItem(CART_KEY) || '{}'); } catch(e) { CART = {}; }
+
+function saveCart() {
+  try { localStorage.setItem(CART_KEY, JSON.stringify(CART)); } catch(e) {}
+}
+
+function getListRows() {
+  const markup = parseFloat(document.getElementById('markup').value) || 0;
+  const rounding = document.getElementById('rounding').value;
+  return DATA.filter(d => d.match && d.avail).map(d => {
+    const raw = d.b2b_iva * (1 + markup / 100);
+    const tuPrecio = roundPrice(raw, rounding);
+    const ahorro = +(d.pvp - tuPrecio).toFixed(2);
+    const ahorroPct = d.pvp > 0 ? (ahorro / d.pvp) * 100 : 0;
+    return { ...d, tuPrecio, ahorro, ahorroPct, catDisplay: CAT_DISPLAY_MAP[d.cat] || d.cat };
+  });
+}
+
+function setQty(sku, qty) {
+  qty = Math.max(0, parseInt(qty) || 0);
+  if (qty === 0) delete CART[sku];
+  else CART[sku] = qty;
+  saveCart();
+  renderTotals();
+  // Update affected card
+  const card = document.querySelector(`[data-sku="${sku}"]`);
+  if (card) {
+    card.classList.toggle('in-cart', qty > 0);
+    const input = card.querySelector('.qty-input');
+    if (input && document.activeElement !== input) input.value = qty;
+    // Update profit badge with line total
+    const r = getListRows().find(x => x.sku === sku);
+    if (r) {
+      const decimals = parseFloat(document.getElementById('rounding').value) >= 1 ? 0 : 2;
+      const profitPerUnit = +(r.tuPrecio - r.b2b_iva).toFixed(2);
+      const lineProfit = +(profitPerUnit * qty).toFixed(2);
+      const profitBadge = card.querySelector('.p-profit');
+      if (profitBadge) {
+        profitBadge.innerHTML = qty > 0
+          ? `💰 ${fmtEur(profitPerUnit, decimals)}/ud × ${qty} = <strong style="margin-left:4px;">${fmtEur(lineProfit, decimals)}</strong>`
+          : `💰 Ganas ${fmtEur(profitPerUnit, decimals)} / ud`;
+      }
+    }
+  }
+}
+
+function renderTotals() {
+  const rows = getListRows();
+  const decimals = parseFloat(document.getElementById('rounding').value) >= 1 ? 0 : 2;
+  let units = 0, refs = 0, total = 0, pvpTotal = 0, profit = 0;
+  for (const r of rows) {
+    const q = CART[r.sku] || 0;
+    if (q > 0) {
+      units += q; refs++;
+      total += r.tuPrecio * q;
+      pvpTotal += r.pvp * q;
+      profit += (r.tuPrecio - r.b2b_iva) * q;
+    }
+  }
+  document.getElementById('listCountUnits').textContent = units;
+  document.getElementById('listCountRefs').textContent = refs;
+  document.getElementById('listTotal').textContent = fmtEur(total, decimals);
+  document.getElementById('listPvpTotal').textContent = fmtEur(pvpTotal, decimals);
+  document.getElementById('listSaving').textContent = '−' + fmtEur(pvpTotal - total, decimals);
+  document.getElementById('listProfit').textContent = '+' + fmtEur(profit, decimals);
+  const profitPct = total > 0 ? (profit / total) * 100 : 0;
+  document.getElementById('listProfitPct').textContent = profitPct.toFixed(1) + '%';
+}
+
+function renderProductGrid() {
+  const rows = getListRows();
+  const q = (document.getElementById('listSearch').value || '').toLowerCase();
+  const cat = document.getElementById('listCatFilter').value;
+  const inCartOnly = document.getElementById('listInCartOnly').value === '1';
+  const decimals = parseFloat(document.getElementById('rounding').value) >= 1 ? 0 : 2;
+
+  const filtered = rows.filter(r => {
+    if (q && !(r.sku.toLowerCase().includes(q) || r.title.toLowerCase().includes(q))) return false;
+    if (cat && r.catDisplay !== cat) return false;
+    if (inCartOnly && !CART[r.sku]) return false;
+    return true;
+  });
+
+  // Group by category
+  const byCat = {};
+  for (const r of filtered) {
+    if (!byCat[r.catDisplay]) byCat[r.catDisplay] = [];
+    byCat[r.catDisplay].push(r);
+  }
+  const ordered = [...CAT_ORDER, ...Object.keys(byCat).filter(c => !CAT_ORDER.includes(c))];
+
+  let html = '';
+  if (filtered.length === 0) {
+    html = '<div class="empty-cart-msg">No hay productos que coincidan con los filtros.</div>';
+  } else {
+    for (const cat of ordered) {
+      if (!byCat[cat]) continue;
+      html += `<div class="list-cat-section"><h2>${cat}</h2><div class="product-grid">`;
+      for (const r of byCat[cat]) {
+        const qty = CART[r.sku] || 0;
+        const imgPath = IMG_MAP[r.sku];
+        const imgUrl = imgPath ? IMG_BASE + imgPath : '';
+        const cleanTitle = r.title.replace(/\s*\+ (?:mini|MINI) Shaker de regalo/, '').replace(/^Pack 24 ud\. /, 'Pack 24 · ').replace(/^Pack 30 ud\. /, 'Pack 30 · ');
+        const cardCls = qty > 0 ? 'product-card in-cart' : 'product-card';
+        const pvpHtml = r.ahorro > 0 ? `<span class="p-pvp">${fmtEur(r.pvp, decimals)}</span><span class="p-saving">−${Math.round(r.ahorroPct)}%</span>` : '';
+        const profitPerUnit = +(r.tuPrecio - r.b2b_iva).toFixed(2);
+        const lineProfit = +(profitPerUnit * qty).toFixed(2);
+        const profitTxt = qty > 0
+          ? `💰 ${fmtEur(profitPerUnit, decimals)}/ud × ${qty} = <strong style="margin-left:4px;">${fmtEur(lineProfit, decimals)}</strong>`
+          : `💰 Ganas ${fmtEur(profitPerUnit, decimals)} / ud`;
+        const profitHtml = `<span class="p-profit profit-info">${profitTxt}</span>`;
+        html += `<div class="${cardCls}" data-sku="${r.sku}">
+          <div class="product-img">${imgUrl ? `<img src="${imgUrl}" alt="${cleanTitle}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=no-img>Sin imagen</span>'">` : '<span class="no-img">Sin imagen</span>'}</div>
+          <div class="p-cat">${r.catDisplay}</div>
+          <div class="p-title">${cleanTitle}</div>
+          ${profitHtml}
+          <div class="p-prices"><span class="p-price">${fmtEur(r.tuPrecio, decimals)}</span>${pvpHtml}</div>
+          <div class="qty-control">
+            <button class="qty-btn minus" data-act="dec" data-sku="${r.sku}">−</button>
+            <input class="qty-input" type="number" min="0" value="${qty}" data-sku="${r.sku}">
+            <button class="qty-btn plus" data-act="inc" data-sku="${r.sku}">+</button>
+          </div>
+        </div>`;
+      }
+      html += '</div></div>';
+    }
+  }
+  document.getElementById('productGrid').innerHTML = html;
+
+  // Wire up buttons
+  document.querySelectorAll('.qty-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const sku = btn.dataset.sku;
+      const cur = CART[sku] || 0;
+      setQty(sku, btn.dataset.act === 'inc' ? cur + 1 : cur - 1);
+    });
+  });
+  document.querySelectorAll('.qty-input').forEach(inp => {
+    inp.addEventListener('change', () => setQty(inp.dataset.sku, inp.value));
+  });
+}
+
+// Populate list category filter
+const listCatSel = document.getElementById('listCatFilter');
+const listCats = [...new Set(getListRows().map(r => r.catDisplay))];
+const orderedListCats = [...CAT_ORDER.filter(c => listCats.includes(c)), ...listCats.filter(c => !CAT_ORDER.includes(c))];
+orderedListCats.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; listCatSel.appendChild(o); });
+
+document.getElementById('listSearch').addEventListener('input', renderProductGrid);
+document.getElementById('listCatFilter').addEventListener('change', renderProductGrid);
+document.getElementById('listInCartOnly').addEventListener('change', renderProductGrid);
+
+function buildOrderText() {
+  const rows = getListRows();
+  const decimals = parseFloat(document.getElementById('rounding').value) >= 1 ? 0 : 2;
+  const items = rows.filter(r => CART[r.sku] > 0);
+  if (!items.length) return '';
+  let txt = '🛒 *Mi pedido — 101 Other Level*\n\n';
+  let total = 0;
+  for (const r of items) {
+    const q = CART[r.sku];
+    const sub = r.tuPrecio * q;
+    total += sub;
+    const cleanTitle = r.title.replace(/\s*\+ (?:mini|MINI) Shaker de regalo/, '');
+    txt += `• ${q}× ${cleanTitle} — *${fmtEur(sub, decimals)}*\n`;
+  }
+  txt += `\n💰 *TOTAL: ${fmtEur(total, decimals)}*\n`;
+  txt += '\n¿Me lo apuntas al próximo pedido?';
+  return txt;
+}
+
+document.getElementById('orderWhatsApp').addEventListener('click', () => {
+  const t = buildOrderText();
+  if (!t) { showToast('Tu lista está vacía.'); return; }
+  window.open('https://wa.me/?text=' + encodeURIComponent(t), '_blank');
+});
+document.getElementById('orderCopy').addEventListener('click', async () => {
+  const t = buildOrderText();
+  if (!t) { showToast('Tu lista está vacía.'); return; }
+  try { await navigator.clipboard.writeText(t); showToast('Pedido copiado.'); }
+  catch(e) { showToast('No se pudo copiar.'); }
+});
+document.getElementById('orderPrint').addEventListener('click', () => {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector('.tab-btn[data-tab="lista"]').classList.add('active');
+  document.getElementById('tab-lista').classList.add('active');
+  setTimeout(() => window.print(), 200);
+});
+document.getElementById('orderClear').addEventListener('click', () => {
+  if (Object.keys(CART).length === 0) return;
+  if (confirm('¿Vaciar la lista de compra?')) {
+    CART = {};
+    saveCart();
+    renderProductGrid();
+    renderTotals();
+  }
+});
+
+// Sincroniza el input de markup duplicado en la pestaña Lista
+function syncMarkupLista() {
+  const v = document.getElementById('markup').value;
+  const lista = document.getElementById('markupLista');
+  if (lista) lista.value = v;
+  const lbl = document.getElementById('markupLabel');
+  if (lbl) lbl.textContent = v || '0';
+}
+document.getElementById('markupLista').addEventListener('input', () => {
+  document.getElementById('markup').value = document.getElementById('markupLista').value;
+  renderCatalogo();
+  renderProductGrid();
+  renderTotals();
+});
+
+// Re-render la lista cuando cambian markup/rounding desde el catálogo
+['markup','rounding'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    syncMarkupLista();
+    renderProductGrid();
+    renderTotals();
+  });
+});
+
+// ============ MODO ADMIN (usuario + contraseña) ============
+// Credenciales: usuario "SUPERADMIN" / contraseña "ADM#4837"
+// La contraseña se guarda como hash SHA-256, el usuario como hash también.
+const ADMIN_USER_HASH = '0abe56f20f41de374f6d5654ed0a9b4340941ce7edc55c7763492468a8d2f153'; // SHA-256 de "SUPERADMIN"
+const ADMIN_PASSWORD_HASH = '9ede58f67a8abdb743241bb4abfd2ba65fa6b0622a3005ae219eca70a8e65d18'; // SHA-256 de "ADM#4837"
+const ADMIN_KEY = 'admin_101';
+
+let isAdmin = localStorage.getItem(ADMIN_KEY) === '1';
+
+function applyAdmin() {
+  document.body.classList.toggle('admin', isAdmin);
+  document.getElementById('adminToggle').textContent = isAdmin ? '🔓 Admin ON · cerrar' : '🔒 Admin';
+  if (!isAdmin) {
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (activeTab && activeTab.classList.contains('admin-only')) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.querySelector('.tab-btn[data-tab="lista"]').classList.add('active');
+      document.getElementById('tab-lista').classList.add('active');
+    }
+  }
+}
+
+async function sha256Hex(text) {
+  const buf = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function verifyAdmin(user, password) {
+  const uh = await sha256Hex(user);
+  const ph = await sha256Hex(password);
+  return uh === ADMIN_USER_HASH && ph === ADMIN_PASSWORD_HASH;
+}
+
+function openAdminModal() {
+  document.getElementById('adminModal').classList.add('open');
+  document.getElementById('adminError').classList.remove('show');
+  document.getElementById('adminUser').value = '';
+  document.getElementById('adminPassword').value = '';
+  setTimeout(() => document.getElementById('adminUser').focus(), 100);
+}
+function closeAdminModal() {
+  document.getElementById('adminModal').classList.remove('open');
+}
+
+document.getElementById('adminToggle').addEventListener('click', () => {
+  if (isAdmin) {
+    isAdmin = false;
+    try { localStorage.setItem(ADMIN_KEY, '0'); } catch(e) {}
+    applyAdmin();
+  } else {
+    openAdminModal();
+  }
+});
+document.getElementById('adminCancel').addEventListener('click', closeAdminModal);
+document.getElementById('adminModal').addEventListener('click', e => {
+  if (e.target.id === 'adminModal') closeAdminModal();
+});
+
+async function submitAdmin() {
+  const user = document.getElementById('adminUser').value.trim();
+  const pwd = document.getElementById('adminPassword').value;
+  const ok = await verifyAdmin(user, pwd);
+  if (ok) {
+    isAdmin = true;
+    try { localStorage.setItem(ADMIN_KEY, '1'); } catch(e) {}
+    applyAdmin();
+    closeAdminModal();
+    showToast('Modo admin activado.');
+  } else {
+    document.getElementById('adminError').classList.add('show');
+    document.getElementById('adminPassword').value = '';
+    document.getElementById('adminPassword').focus();
+  }
+}
+document.getElementById('adminSubmit').addEventListener('click', submitAdmin);
+document.getElementById('adminPassword').addEventListener('keydown', e => { if (e.key === 'Enter') submitAdmin(); });
+document.getElementById('adminUser').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('adminPassword').focus(); });
+
+applyAdmin();
+
+// La ganancia se muestra automáticamente en modo admin (sin toggle adicional)
+
+syncMarkupLista();
+renderProductGrid();
+renderTotals();
+
+refreshAnalisis();
+renderCatalogo();
+</script>
+</body>
+</html>
